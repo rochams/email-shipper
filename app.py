@@ -1,8 +1,7 @@
 """
-Se você tomar um erro de autenticação, entre no link https://www.google.com/settings/security/lesssecureapps e permita que o seervidor de e-mail
-seja acessado por aplicações 'menos seguras'.
+Se você tomar um erro de autenticação, entre no link https://www.google.com/settings/security/lesssecureapps e habilite o servidor de e-mail para
+ser acessado por aplicações de 'terceiros'.
 """
-
 
 from string import Template
 from datetime import datetime
@@ -11,6 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 import smtplib
+
 
 # se você subir essa aplicação pro seu repositório, crie um módulo para importar as credenciais de e-mail.
 my_email = 'seu_email@email.com'
@@ -30,11 +30,14 @@ msg['subject'] = 'E-mail teste Python'
 
 # especificando o corpo do email e o formato
 corpo = MIMEText(content, 'html')   
-# anexando o corpo do texto ao e-mail
 msg.attach(corpo)
 
+with open('imagem.png', 'rb') as img:
+    img = MIMEImage(img.read())
+    msg.attach(img)
+
 with smtplib.SMTP(host='smtp.gmail.com', port=587) as prot:
-    # as portas e endereço variam de acordo com o provedor, consulte o desejado.
+    # porta e endereço variam de acordo com o provedor.
     prot.ehlo()
     prot.starttls()
     prot.login(my_email, my_pass)
