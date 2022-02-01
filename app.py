@@ -26,7 +26,7 @@ with open('template.html', 'r') as html:
 msg = MIMEMultipart()
 msg['from'] = 'remetente'
 msg['to'] = 'destinatario@email.com'
-msg['subject'] = 'E-mail teste Python'
+msg['subject'] = 'Assunto do e-mail'
 
 # especificando o corpo do email e o formato
 corpo = MIMEText(content, 'html')   
@@ -37,14 +37,16 @@ with open('imagem.png', 'rb') as img:
     msg.attach(img)
 
 with smtplib.SMTP(host='smtp.gmail.com', port=587) as prot:
-    # porta e endereço variam de acordo com o provedor.
-    prot.ehlo()
-    prot.starttls()
-    prot.login(my_email, my_pass)
-    prot.send_message(msg)
-
-
-    print('E-mail enviado com sucesso!')
+    try:
+        # porta e endereço variam de acordo com o provedor.
+        prot.ehlo()
+        prot.starttls()
+        prot.login(my_email, my_pass)
+        prot.send_message(msg)
+        print('E-mail enviado com sucesso!')
+    except Exception as erro:
+        print('E-mail não enviado')
+        print('Erro: ', erro)
 
 
 
